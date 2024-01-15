@@ -674,12 +674,8 @@ class _HomeScreenState extends State<HomeScreen> {
       title: 'Tedarik 1',
       description: 'Açıklama 1',
       sector: 'Sektor 1',
-      createdBy: User(
-        username: 'user1',
-        email: '',
-        imageUrl: 'anonim.png',
-      ),
-      imageUrl: '',
+      createdBy: User(username: 'user1', email: '', imageUrl: ''),
+      imageUrl: 'anonim.png',
     ),
     Supply(
       title: 'Tedarik 2',
@@ -714,25 +710,90 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // ignore: unused_element
   void _editSupply(Supply supply) async {
-    final editedSupply = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EditSupplyScreen(initialSupply: supply),
-      ),
-    );
+    // Kullanıcının eklediği tedarikleri kontrol et
+    if (supply.createdBy == widget.user) {
+      final editedSupply = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EditSupplyScreen(initialSupply: supply),
+        ),
+      );
 
-    if (editedSupply != null) {
-      setState(() {
-        supplyList.remove(supply);
-        supplyList.add(editedSupply);
-      });
+      if (editedSupply != null) {
+        setState(() {
+          // Tedarik öğesini güncelleme işlemleri burada yapılır
+          // Sadece kullanıcının eklediği tedarikleri güncelle
+          if (supplyList.contains(supply)) {
+            supplyList.remove(supply);
+            supplyList.add(editedSupply);
+          }
+        });
+      }
     }
   }
 
   void _shareSupply(Supply supply) {
-    // Burada tedarik paylaşma işlemlerini gerçekleştirin
-    print('Tedarik paylaşma: ${supply.title}');
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        // ignore: avoid_unnecessary_containers
+        return Container(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.phone, color: Colors.green),
+                title: Text('Whatsapp'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Mesajla işlemini gerçekleştir
+                  _shareViaMessage(supply);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.work, color: Colors.blue),
+                title: Text('JOBSocial'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Mesajla işlemini gerçekleştir
+                  _shareViaMessage(supply);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.email),
+                title: Text('Email'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Mesajla işlemini gerçekleştir
+                  _shareViaMessage(supply);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.copy),
+                title: Text('Bağlantı Kopyala'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Bağlantıyı kopyala işlemini gerçekleştir
+                  _copyLink(supply);
+                },
+              ),
+              // İstediğiniz diğer paylaşma seçeneklerini ekleyebilirsiniz
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _shareViaMessage(Supply supply) {
+    // Mesajla paylaşma işlemleri
+    print('Mesajla paylaşma: ${supply.title}');
+  }
+
+  void _copyLink(Supply supply) {
+    // Bağlantıyı kopyala işlemleri
+    print('Bağlantı kopyalandı: ${supply.title}');
   }
 
   // ignore: unused_element
@@ -902,6 +963,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         .where((supply) =>
                             supply.title.toLowerCase().contains(searchQuery))
                         .toList()[index];
+// ignore: unused_local_variable
+                final imageUrl = supply.imageUrl.isNotEmpty
+                    ? supply.imageUrl
+                    : 'assets/images/anonim.png';
                 return Dismissible(
                   key: Key(supply.title),
                   onDismissed: (direction) {
@@ -938,12 +1003,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ListTile(
                       title: Text(supply.title),
                       subtitle: Text(supply.description),
-                      leading: supply.createdBy == widget.user
-                          ? IconButton(
-                              icon: Icon(Icons.edit),
-                              onPressed: () {
-                                _editSupply(supply);
-                              },
+                      leading: supply.imageUrl.isNotEmpty
+                          ? CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/images/anonim.png'),
                             )
                           : null,
                       trailing: Row(
@@ -955,6 +1018,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               _shareSupply(supply);
                             },
                           ),
+                          if (supply.createdBy == widget.user)
+                            IconButton(
+                              icon: Icon(Icons.edit), // Düzenleme ikonu
+                              onPressed: () {
+                                _editSupply(
+                                    supply); // Düzenleme işlemini başlat
+                              },
+                            ),
                         ],
                       ),
                       onTap: () {
@@ -1070,7 +1141,7 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.initialSupply.createdBy,
-                  imageUrl: '',
+                  imageUrl: 'anonim.png',
                 );
 
                 Navigator.pop(context, editedSupply);
@@ -1166,16 +1237,31 @@ class SupplyDetailScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Row(
               children: [
-                ElevatedButton(
-                  onPressed: onDelete,
-                  child: const Text('Delete Supply'),
-                ),
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: handleApply,
                   child: const Text('Apply'),
                 ),
               ],
+            ),
+            const SizedBox(height: 20),
+            // Oluşturan kullanıcının profil resmini görüntüle
+            ListTile(
+              leading: CircleAvatar(
+                backgroundImage: AssetImage('assets/images/anonim.png'),
+              ),
+              title: Text('Oluşturan Kullanıcı: ${supply.createdBy.username}'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(
+                      user: supply.createdBy, userSupplies: const [],
+                      // İstediğiniz diğer bilgileri de buraya ekleyebilirsiniz
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -1238,7 +1324,7 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.user,
-                  imageUrl: '',
+                  imageUrl: 'anonim.png',
                 );
 
                 widget.onSupplyAdded(newSupply);
