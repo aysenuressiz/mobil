@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, duplicate_ignore, sized_box_for_whitespace, avoid_print
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -43,13 +41,12 @@ class AndroidSmall1 extends StatelessWidget {
             ),
           ),
           child: Stack(
-            // ignore: duplicate_ignore, duplicate_ignore
             children: [
               // ignore: prefer_const_constructors
               Positioned(
                 left: -27,
                 top: 92,
-                child: SizedBox(
+                child: const SizedBox(
                   width: 414,
                   height: 98,
                   child: Text(
@@ -102,7 +99,7 @@ class AndroidSmall1 extends StatelessWidget {
                             width: 249,
                             height: 45,
                             decoration: ShapeDecoration(
-                              color: Color.fromARGB(255, 32, 85, 150),
+                              color: const Color.fromARGB(255, 32, 85, 150),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -128,7 +125,7 @@ class AndroidSmall1 extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
+              const Positioned(
                 left: 150, // İstediğiniz konuma göre ayarlayabilirsiniz
                 bottom: 10, // İstediğiniz konuma göre ayarlayabilirsiniz
                 child: Text(
@@ -282,7 +279,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                         primary: Colors.transparent,
                         elevation: 0,
                       ),
-                      child: Text(
+                      child: const Text(
                         'Login',
                         style: TextStyle(
                           color: Colors.white,
@@ -417,6 +414,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                 Positioned(
                   left: 55,
                   top: 217,
+                  // ignore: sized_box_for_whitespace
                   child: Container(
                     width: 249,
                     height: 35,
@@ -442,7 +440,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                   ),
                 ),
 
-                Positioned(
+                const Positioned(
                   left: 107,
                   top: 472,
                   child: Text(
@@ -513,14 +511,14 @@ class SignUpScreen extends StatelessWidget {
           children: [
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Email',
               ),
             ),
             const SizedBox(height: 10),
             TextField(
               controller: _usernameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Username',
               ),
             ),
@@ -528,7 +526,7 @@ class SignUpScreen extends StatelessWidget {
             TextField(
               controller: _passwordController,
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Password',
               ),
             ),
@@ -566,7 +564,7 @@ class MySuppliesScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 2),
-            Text('Sizin Oluşturduğunuz Tedarikler:'),
+            const Text('Sizin Oluşturduğunuz Tedarikler:'),
             Column(
               children: userSupplies.map((supply) {
                 return ListTile(
@@ -635,7 +633,7 @@ class MyNotificationScreen extends StatelessWidget {
           children: [
             Text('Merhaba, ${user.username}!'),
             const SizedBox(height: 20),
-            Text('Bildiimlerim Listesi:'),
+            const Text('Bildiimlerim Listesi:'),
             // Başvurularınızın listesini göstermek için gerekli widget'ları ekleyin
           ],
         ),
@@ -743,8 +741,8 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Wrap(
             children: <Widget>[
               ListTile(
-                leading: Icon(Icons.phone, color: Colors.green),
-                title: Text('Whatsapp'),
+                leading: const Icon(Icons.phone, color: Colors.green),
+                title: const Text('Whatsapp'),
                 onTap: () {
                   Navigator.pop(context);
                   // Mesajla işlemini gerçekleştir
@@ -752,8 +750,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.work, color: Colors.blue),
-                title: Text('JOBSocial'),
+                leading: const Icon(Icons.work, color: Colors.blue),
+                title: const Text('JOBSocial'),
                 onTap: () {
                   Navigator.pop(context);
                   // Mesajla işlemini gerçekleştir
@@ -761,8 +759,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.email),
-                title: Text('Email'),
+                leading: const Icon(Icons.email),
+                title: const Text('Email'),
                 onTap: () {
                   Navigator.pop(context);
                   // Mesajla işlemini gerçekleştir
@@ -770,8 +768,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.copy),
-                title: Text('Bağlantı Kopyala'),
+                leading: const Icon(Icons.copy),
+                title: const Text('Bağlantı Kopyala'),
                 onTap: () {
                   Navigator.pop(context);
                   // Bağlantıyı kopyala işlemini gerçekleştir
@@ -788,11 +786,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _shareViaMessage(Supply supply) {
     // Mesajla paylaşma işlemleri
+    // ignore: avoid_print
     print('Mesajla paylaşma: ${supply.title}');
   }
 
   void _copyLink(Supply supply) {
     // Bağlantıyı kopyala işlemleri
+    // ignore: avoid_print
     print('Bağlantı kopyalandı: ${supply.title}');
   }
 
@@ -810,6 +810,7 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {
               // Kullanıcının başvurularını tuttuğunuz listeye supply ekleyin
               userApplications.add(supply);
+              // ignore: avoid_print
               print('Başvuru eklendi: ${supply.title}');
             });
             Navigator.pop(context); // SupplyDetailScreen'ı kapatın
@@ -860,7 +861,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: ListView(
           children: [
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -875,7 +876,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // ...
             ListTile(
-              title: Text('Bildirimler'),
+              title: const Text('Bildirimler'),
               onTap: () {
                 Navigator.pop(context); // Menüyü kapat
                 Navigator.push(
@@ -892,7 +893,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              title: Text('Tedarikler'),
+              title: const Text('Tedarikler'),
               onTap: () {
                 Navigator.pop(context); // Menüyü kapat
                 Navigator.push(
@@ -909,7 +910,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              title: Text('Başvurular'),
+              title: const Text('Başvurular'),
               onTap: () {
                 Navigator.pop(context); // Menüyü kapat
                 Navigator.push(
@@ -945,7 +946,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Expanded(
             child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
@@ -1004,7 +1005,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: Text(supply.title),
                       subtitle: Text(supply.description),
                       leading: supply.imageUrl.isNotEmpty
-                          ? CircleAvatar(
+                          ? const CircleAvatar(
                               backgroundImage:
                                   AssetImage('assets/images/anonim.png'),
                             )
@@ -1013,14 +1014,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.share),
+                            icon: const Icon(Icons.share),
                             onPressed: () {
                               _shareSupply(supply);
                             },
                           ),
                           if (supply.createdBy == widget.user)
                             IconButton(
-                              icon: Icon(Icons.edit), // Düzenleme ikonu
+                              icon: const Icon(Icons.edit), // Düzenleme ikonu
                               onPressed: () {
                                 _editSupply(
                                     supply); // Düzenleme işlemini başlat
@@ -1175,7 +1176,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               backgroundImage: AssetImage('assets/images/anonim.png'),
               radius: 50,
             ),
@@ -1247,7 +1248,7 @@ class SupplyDetailScreen extends StatelessWidget {
             const SizedBox(height: 20),
             // Oluşturan kullanıcının profil resmini görüntüle
             ListTile(
-              leading: CircleAvatar(
+              leading: const CircleAvatar(
                 backgroundImage: AssetImage('assets/images/anonim.png'),
               ),
               title: Text('Oluşturan Kullanıcı: ${supply.createdBy.username}'),
