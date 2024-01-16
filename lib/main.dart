@@ -13,10 +13,7 @@ class FigmaToCodeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Tema ayarları
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
-      ),
+      theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.white),
       home: Scaffold(
         body: ListView(
           children: const [
@@ -246,7 +243,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                     ),
                   ),
                 ),
-                Positioned(
+                /*Positioned(
                   left: 54,
                   top: 155,
                   child: Container(
@@ -265,7 +262,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                     decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 32, 85, 150)),
                   ),
-                ),
+                ),*/
                 Positioned(
                   left: 55,
                   top: 260,
@@ -516,6 +513,11 @@ class SignUpScreen extends StatelessWidget {
               controller: _emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
+                labelStyle: TextStyle(color: Colors.black), // Email metin rengi
+                border: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Colors.black), // Alt çizgi rengi
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -523,6 +525,11 @@ class SignUpScreen extends StatelessWidget {
               controller: _usernameController,
               decoration: const InputDecoration(
                 labelText: 'Username',
+                labelStyle: TextStyle(color: Colors.black), //  metin rengi
+                border: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Colors.black), // Alt çizgi rengi
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -531,10 +538,18 @@ class SignUpScreen extends StatelessWidget {
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'Password',
+                labelStyle: TextStyle(color: Colors.black), // metin rengi
+                border: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Colors.black), // Alt çizgi rengi
+                ),
               ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 32, 85, 150),
+              ),
               onPressed: () => _signUp(context),
               child: const Text('Sign Up'),
             ),
@@ -567,15 +582,28 @@ class MySuppliesScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 2),
-            const Text('Sizin Oluşturduğunuz Tedarikler:'),
+            const Text(
+              'Sizin Oluşturduğunuz Tedarikler:',
+              style: TextStyle(
+                color: Colors.black, // Eklenen tedarik yazı rengi
+                fontSize: 16, // Eklenen tedarik yazı boyutu
+              ),
+            ),
+            const SizedBox(height: 10),
+            // Burada eklenen tedariklerin listesi yer alabilir
+
             Column(
               children: userSupplies.map((supply) {
                 return ListTile(
-                  title: Text(supply.title),
+                  title: Text(
+                    supply.title,
+                    style: const TextStyle(color: Colors.black),
+                  ),
                   subtitle: Text(supply.description),
                 );
               }).toList(),
             ),
+            const Spacer()
           ],
         ),
       ),
@@ -684,6 +712,13 @@ class _HomeScreenState extends State<HomeScreen> {
       sector: 'Sektor 2',
       createdBy: User(username: 'user2', email: '', imageUrl: ''),
       imageUrl: 'anonim.jpeg',
+    ),
+    Supply(
+      title: 'Tedarik 3',
+      description: 'Açıklama 3',
+      sector: 'Sektor 3',
+      createdBy: User(username: 'user3', email: '', imageUrl: ''),
+      imageUrl: 'anonim.png',
     ),
   ];
 
@@ -798,38 +833,23 @@ class _HomeScreenState extends State<HomeScreen> {
   // ignore: unused_element
   void _viewSupplyDetail(Supply supply) {
     var logger = Logger();
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(supply.title),
-          content: Column(
-            children: [
-              Text('Açıklama: ${supply.description}'),
-              Text('Sektör: ${supply.sector}'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('İptal'),
-            ),
-            TextButton(
-              onPressed: () {
-                // Başvuruyu eklemek için
-                setState(() {
-                  userApplications.add(supply);
-                });
-                logger.i('Başvuru eklendi: ${supply.title}');
-                Navigator.pop(context);
-              },
-              child: const Text('Başvur'),
-            ),
-          ],
-        );
-      },
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SupplyDetailScreen(
+          supply: supply,
+          currentUser: widget.user,
+          onDelete: () => _deleteSupply(supply),
+          onApply: () {
+            setState(() {
+              // Kullanıcının başvurularını tuttuğunuz listeye supply ekleyin
+              userApplications.add(supply);
+              logger.i('Başvuru eklendi: ${supply.title}');
+            });
+            Navigator.pop(context); // SupplyDetailScreen'ı kapatın
+          },
+        ),
+      ),
     );
   }
 
@@ -876,7 +896,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.grey,
               ),
               child: Text(
                 'Menü',
@@ -1013,51 +1033,63 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Card(
                     margin:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: ListTile(
-                      title: Text(supply.title),
-                      subtitle: Text(supply.description),
-                      leading: supply.imageUrl.isNotEmpty
-                          ? const CircleAvatar(
-                              backgroundImage: AssetImage('images/anonim.jpeg'),
-                            )
-                          : null,
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.share),
-                            onPressed: () {
-                              _shareSupply(supply);
-                            },
+                    child: Column(
+                      children: [
+                        Text(
+                          supply.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
-                          if (supply.createdBy == widget.user)
-                            IconButton(
-                              icon: const Icon(Icons.edit), // Düzenleme ikonu
-                              onPressed: () {
-                                _editSupply(
-                                    supply); // Düzenleme işlemini başlat
-                              },
-                            ),
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SupplyDetailScreen(
-                              supply: supply,
-                              currentUser: widget.user, // currentUser'ı ekledik
-                              onDelete: () => _deleteSupply(supply),
-                              onApply: () {
-                                setState(() {
-                                  userApplications.add(supply);
-                                });
-                                Navigator.pop(context);
-                              },
-                            ),
+                        ),
+                        ListTile(
+                          leading: supply.imageUrl.isNotEmpty
+                              ? const CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('images/anonim.jpeg'),
+                                )
+                              : null,
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.share),
+                                onPressed: () {
+                                  _shareSupply(supply);
+                                },
+                                iconSize: 16,
+                              ),
+                              if (supply.createdBy == widget.user)
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    _editSupply(supply);
+                                  },
+                                  iconSize: 16,
+                                ),
+                            ],
                           ),
-                        );
-                      },
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SupplyDetailScreen(
+                                  supply: supply,
+                                  currentUser: widget.user,
+                                  onDelete: () => _deleteSupply(supply),
+                                  onApply: () {
+                                    setState(() {
+                                      userApplications.add(supply);
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -1109,7 +1141,6 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _sectorController;
-  late XFile? _imageFile;
 
   @override
   void initState() {
@@ -1119,15 +1150,6 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
         TextEditingController(text: widget.initialSupply.description);
     _sectorController =
         TextEditingController(text: widget.initialSupply.sector);
-  }
-
-  Future<void> _getImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _imageFile = pickedFile;
-    });
   }
 
   @override
@@ -1141,33 +1163,31 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: _getImage,
-              child: _imageFile == null
-                  ? const Icon(
-                      Icons.add_a_photo,
-                      size: 50,
-                    )
-                  : Image.file(
-                      File(_imageFile!.path),
-                      height: 100,
-                      width: 100,
-                    ),
-            ),
-            const SizedBox(height: 20),
             TextField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(
+                labelText: 'Title',
+                labelStyle: TextStyle(color: Colors.black), // Label rengi
+              ),
+              style: const TextStyle(color: Colors.black), // Metin rengi
             ),
             const SizedBox(height: 10),
             TextField(
               controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(
+                labelText: 'Description',
+                labelStyle: TextStyle(color: Colors.black), // Label rengi
+              ),
+              style: const TextStyle(color: Colors.black), // Metin rengi
             ),
             const SizedBox(height: 10),
             TextField(
               controller: _sectorController,
-              decoration: const InputDecoration(labelText: 'Sector'),
+              decoration: const InputDecoration(
+                labelText: 'Sector',
+                labelStyle: TextStyle(color: Colors.black), // Label rengi
+              ),
+              style: const TextStyle(color: Colors.black), // Metin rengi
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -1177,7 +1197,7 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.initialSupply.createdBy,
-                  imageUrl: _imageFile?.path ?? 'anonim.jpeg',
+                  imageUrl: 'anonim.jpeg',
                 );
 
                 Navigator.pop(context, editedSupply);
@@ -1216,10 +1236,16 @@ class ProfileScreen extends StatelessWidget {
               radius: 50,
             ),
             const SizedBox(height: 20),
-            Text('Merhaba! ${user.email}'), // Kullanıcının resim URL'si
+            Text(
+              'Merhaba! ${user.email}',
+              style: const TextStyle(color: Colors.black), // Metin rengi
+            ),
             const SizedBox(height: 20),
-            Text('E-posta: ${user.username}!'),
-
+            Text(
+              'E-posta: ${user.username}!',
+              style: const TextStyle(
+                  color: Colors.black), // Metin rengini buradan ayarlayın
+            ),
             // Başka kullanıcı bilgilerini buraya ekleyebilirsiniz.
           ],
         ),
@@ -1267,9 +1293,16 @@ class SupplyDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Description: ${supply.description}'),
+            Text(
+              'Description: ${supply.description}',
+              style: const TextStyle(color: Colors.black), // Metin rengi
+            ),
             const SizedBox(height: 10),
-            Text('Sector: ${supply.sector}'),
+            Text(
+              'Sector: ${supply.sector}',
+              style: const TextStyle(
+                  color: Colors.black), // Metin rengini burada ayarla
+            ),
             const SizedBox(height: 20),
             Row(
               children: [
@@ -1286,13 +1319,18 @@ class SupplyDetailScreen extends StatelessWidget {
               leading: const CircleAvatar(
                 backgroundImage: AssetImage('images/anonim.jpeg'),
               ),
-              title: Text('Oluşturan Kullanıcı: ${supply.createdBy.username}'),
+              title: Text(
+                'Oluşturan Kullanıcı: ${supply.createdBy.username}',
+                style: const TextStyle(
+                    color: Colors.black), // Metin rengini burada ayarla
+              ),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfileScreen(
-                      user: supply.createdBy, userSupplies: const [],
+                      user: supply.createdBy,
+                      userSupplies: const [],
                       // İstediğiniz diğer bilgileri de buraya ekleyebilirsiniz
                     ),
                   ),
@@ -1351,17 +1389,29 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
           children: [
             TextField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(
+                labelText: 'Title',
+                labelStyle: TextStyle(color: Colors.black), // Başlık rengi
+              ),
+              style: const TextStyle(color: Colors.black),
             ),
             const SizedBox(height: 10),
             TextField(
               controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(
+                labelText: 'Description',
+                labelStyle: TextStyle(color: Colors.black), // Başlık rengi
+              ),
+              style: const TextStyle(color: Colors.black),
             ),
             const SizedBox(height: 10),
             TextField(
               controller: _sectorController,
-              decoration: const InputDecoration(labelText: 'Sector'),
+              decoration: const InputDecoration(
+                labelText: 'Sector',
+                labelStyle: TextStyle(color: Colors.black), // Başlık rengi
+              ),
+              style: const TextStyle(color: Colors.black),
             ),
             // Image picker için bir düğme
             ElevatedButton(
@@ -1375,6 +1425,17 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
                 : const SizedBox.shrink(),
 
             const SizedBox(height: 20),
+            const SizedBox(height: 10),
+
+            // Dosya ekleme ikonu
+            InkWell(
+              onTap: _getImage,
+              child: const Icon(
+                Icons.drive_folder_upload,
+                size: 40,
+                color: Colors.blue,
+              ),
+            ),
             ElevatedButton(
               onPressed: () {
                 // Add supply logic here

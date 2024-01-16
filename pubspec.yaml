@@ -1,3 +1,4 @@
+
 name: mobil
 description: "A new Flutter project."
 
@@ -12,7 +13,6 @@ dependencies:
     sdk: flutter
   image_picker: ^1.0.7
   logger: ^2.0.2+1
-  sqflite: ^2.0.0
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
