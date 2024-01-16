@@ -1413,11 +1413,6 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
               ),
               style: const TextStyle(color: Colors.black),
             ),
-            // Image picker için bir düğme
-            ElevatedButton(
-              onPressed: _getImage,
-              child: const Text('Fotoğraf Seç'),
-            ),
 
             // Seçilen fotoğrafın önizlemesi
             _selectedImage != null
