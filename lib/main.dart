@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 
 void main() {
   runApp(const FigmaToCodeApp());
@@ -13,12 +13,13 @@ class FigmaToCodeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // Tema ayarları
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
       ),
       home: Scaffold(
         body: ListView(
-          children: [
+          children: const [
             AndroidSmall1(),
           ],
         ),
@@ -27,8 +28,10 @@ class FigmaToCodeApp extends StatelessWidget {
   }
 }
 
-// ignore: use_key_in_widget_constructors
+// İlk ekranın widget'ı
 class AndroidSmall1 extends StatelessWidget {
+  const AndroidSmall1({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,11 +48,10 @@ class AndroidSmall1 extends StatelessWidget {
           ),
           child: Stack(
             children: [
-              // ignore: prefer_const_constructors
-              Positioned(
+              const Positioned(
                 left: -27,
                 top: 92,
-                child: const SizedBox(
+                child: SizedBox(
                   width: 414,
                   height: 98,
                   child: Text(
@@ -73,7 +75,7 @@ class AndroidSmall1 extends StatelessWidget {
                   height: 200,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/supplynexa.jpeg"),
+                      image: AssetImage("images/supplynexa.jpeg"),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -86,11 +88,11 @@ class AndroidSmall1 extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AndroidSmall2()),
+                      MaterialPageRoute(
+                          builder: (context) => const AndroidSmall2()),
                     );
                   },
-                  // ignore: sized_box_for_whitespace
-                  child: Container(
+                  child: SizedBox(
                     width: 249,
                     height: 45,
                     child: Stack(
@@ -129,13 +131,13 @@ class AndroidSmall1 extends StatelessWidget {
                 ),
               ),
               const Positioned(
-                left: 150, // İstediğiniz konuma göre ayarlayabilirsiniz
-                bottom: 10, // İstediğiniz konuma göre ayarlayabilirsiniz
+                left: 150,
+                bottom: 10,
                 child: Text(
                   'by GEA',
                   style: TextStyle(
-                    color: Colors.grey, // İstediğiniz rengi seçebilirsiniz
-                    fontSize: 12, // İstediğiniz font büyüklüğünü seçebilirsiniz
+                    color: Colors.grey,
+                    fontSize: 12,
                   ),
                 ),
               ),
@@ -147,16 +149,17 @@ class AndroidSmall1 extends StatelessWidget {
   }
 }
 
-// ignore: use_key_in_widget_constructors
-
-// ignore: use_key_in_widget_constructors
+// İkinci ekranın widget'ı
 class AndroidSmall2 extends StatefulWidget {
+  const AndroidSmall2({super.key});
+
   @override
   // ignore: library_private_types_in_public_api
   _AndroidSmall2State createState() => _AndroidSmall2State();
 }
 
 class _AndroidSmall2State extends State<AndroidSmall2> {
+  var logger = Logger();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -170,6 +173,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
     return value;
   }
 
+  // Giriş yapma işlevi
   void _login() {
     // Kullanıcı adını ve şifreyi al
     String usernameFromLogin =
@@ -192,8 +196,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
         ),
       );
     } else {
-      // ignore: avoid_print
-      print('Username or password is empty');
+      logger.i('Username or password is empty');
     }
   }
 
@@ -278,8 +281,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                     child: ElevatedButton(
                       onPressed: _login,
                       style: ElevatedButton.styleFrom(
-                        // ignore: deprecated_member_use
-                        primary: Colors.transparent,
+                        backgroundColor: Colors.transparent,
                         elevation: 0,
                       ),
                       child: const Text(
@@ -298,8 +300,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                 Positioned(
                   left: 55,
                   top: 519,
-                  // ignore: sized_box_for_whitespace
-                  child: Container(
+                  child: SizedBox(
                     width: 249,
                     height: 35,
                     child: Stack(
@@ -388,8 +389,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                 Positioned(
                   left: 55,
                   top: 150,
-                  // ignore: sized_box_for_whitespace
-                  child: Container(
+                  child: SizedBox(
                     width: 249,
                     height: 35,
                     child: TextField(
@@ -417,8 +417,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                 Positioned(
                   left: 55,
                   top: 217,
-                  // ignore: sized_box_for_whitespace
-                  child: Container(
+                  child: SizedBox(
                     width: 249,
                     height: 35,
                     child: TextField(
@@ -477,11 +476,12 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
   }
 }
 
-// ignore: use_key_in_widget_constructors
 class SignUpScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  SignUpScreen({super.key});
 
   void _signUp(BuildContext context) {
     String email = _emailController.text.trim();
@@ -676,14 +676,14 @@ class _HomeScreenState extends State<HomeScreen> {
       description: 'Açıklama 1',
       sector: 'Sektor 1',
       createdBy: User(username: 'user1', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
+      imageUrl: 'anonim.jpeg',
     ),
     Supply(
       title: 'Tedarik 2',
       description: 'Açıklama 2',
       sector: 'Sektor 2',
       createdBy: User(username: 'user2', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
+      imageUrl: 'anonim.jpeg',
     ),
   ];
 
@@ -706,12 +706,11 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => AndroidSmall2(),
+        builder: (context) => const AndroidSmall2(),
       ),
     );
   }
 
-  // ignore: unused_element
   void _editSupply(Supply supply) async {
     // Kullanıcının eklediği tedarikleri kontrol et
     if (supply.createdBy == widget.user) {
@@ -739,69 +738,66 @@ class _HomeScreenState extends State<HomeScreen> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        // ignore: avoid_unnecessary_containers
-        return Container(
-          child: Wrap(
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.phone, color: Colors.green),
-                title: const Text('Whatsapp'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Mesajla işlemini gerçekleştir
-                  _shareViaMessage(supply);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.work, color: Colors.blue),
-                title: const Text('JOBSocial'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Mesajla işlemini gerçekleştir
-                  _shareViaMessage(supply);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.email),
-                title: const Text('Email'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Mesajla işlemini gerçekleştir
-                  _shareViaMessage(supply);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.copy),
-                title: const Text('Bağlantı Kopyala'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Bağlantıyı kopyala işlemini gerçekleştir
-                  _copyLink(supply);
-                },
-              ),
-              // İstediğiniz diğer paylaşma seçeneklerini ekleyebilirsiniz
-            ],
-          ),
+        return Wrap(
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.phone, color: Colors.green),
+              title: const Text('Whatsapp'),
+              onTap: () {
+                Navigator.pop(context);
+                // Mesajla işlemini gerçekleştir
+                _shareViaMessage(supply);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.work, color: Colors.blue),
+              title: const Text('JOBSocial'),
+              onTap: () {
+                Navigator.pop(context);
+                // Mesajla işlemini gerçekleştir
+                _shareViaMessage(supply);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.email),
+              title: const Text('Email'),
+              onTap: () {
+                Navigator.pop(context);
+                // Mesajla işlemini gerçekleştir
+                _shareViaMessage(supply);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.copy),
+              title: const Text('Bağlantı Kopyala'),
+              onTap: () {
+                Navigator.pop(context);
+                // Bağlantıyı kopyala işlemini gerçekleştir
+                _copyLink(supply);
+              },
+            ),
+            // İstediğiniz diğer paylaşma seçeneklerini ekleyebilirsiniz
+          ],
         );
       },
     );
   }
 
   void _shareViaMessage(Supply supply) {
+    var logger = Logger();
     // Mesajla paylaşma işlemleri
-    // ignore: avoid_print
-    print('Mesajla paylaşma: ${supply.title}');
+    logger.i('Mesajla paylaşma: ${supply.title}');
   }
 
   void _copyLink(Supply supply) {
+    var logger = Logger();
     // Bağlantıyı kopyala işlemleri
-    // ignore: avoid_print
-    print('Bağlantı kopyalandı: ${supply.title}');
+    logger.i('Bağlantı kopyalandı: ${supply.title}');
   }
 
   // ignore: unused_element
-// ignore: unused_element
   void _viewSupplyDetail(Supply supply) {
+    var logger = Logger();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -813,8 +809,7 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {
               // Kullanıcının başvurularını tuttuğunuz listeye supply ekleyin
               userApplications.add(supply);
-              // ignore: avoid_print
-              print('Başvuru eklendi: ${supply.title}');
+              logger.i('Başvuru eklendi: ${supply.title}');
             });
             Navigator.pop(context); // SupplyDetailScreen'ı kapatın
           },
@@ -896,7 +891,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              title: const Text('Tedarikler'),
+              title: const Text('Tedariklerim'),
               onTap: () {
                 Navigator.pop(context); // Menüyü kapat
                 Navigator.push(
@@ -913,7 +908,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              title: const Text('Başvurular'),
+              title: const Text('Başvurularım'),
               onTap: () {
                 Navigator.pop(context); // Menüyü kapat
                 Navigator.push(
@@ -967,10 +962,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         .where((supply) =>
                             supply.title.toLowerCase().contains(searchQuery))
                         .toList()[index];
-// ignore: unused_local_variable
+                // ignore: unused_local_variable
                 final imageUrl = supply.imageUrl.isNotEmpty
                     ? supply.imageUrl
-                    : 'assets/images/anonim.png';
+                    : 'images/anonim.jpeg';
                 return Dismissible(
                   key: Key(supply.title),
                   onDismissed: (direction) {
@@ -1009,8 +1004,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       subtitle: Text(supply.description),
                       leading: supply.imageUrl.isNotEmpty
                           ? const CircleAvatar(
-                              backgroundImage:
-                                  AssetImage('assets/images/anonim.png'),
+                              backgroundImage: AssetImage('images/anonim.jpeg'),
                             )
                           : null,
                       trailing: Row(
@@ -1145,7 +1139,7 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.initialSupply.createdBy,
-                  imageUrl: 'anonim.png',
+                  imageUrl: 'anonim.jpeg',
                 );
 
                 Navigator.pop(context, editedSupply);
@@ -1180,7 +1174,7 @@ class ProfileScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/anonim.png'),
+              backgroundImage: AssetImage('images/anonim.jpeg'),
               radius: 50,
             ),
             const SizedBox(height: 20),
@@ -1252,7 +1246,7 @@ class SupplyDetailScreen extends StatelessWidget {
             // Oluşturan kullanıcının profil resmini görüntüle
             ListTile(
               leading: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/anonim.png'),
+                backgroundImage: AssetImage('images/anonim.jpeg'),
               ),
               title: Text('Oluşturan Kullanıcı: ${supply.createdBy.username}'),
               onTap: () {
@@ -1279,21 +1273,6 @@ class AddSupplyScreen extends StatefulWidget {
   final User user;
 
   const AddSupplyScreen({
-    Key? key,
-    required this.onSupplyAdded,
-    required this.user,
-  }) : super(key: key);
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _AddSupplyScreenState createState() => _AddSupplyScreenState();
-}
-
-class AddSupplyScreen2 extends StatefulWidget {
-  final void Function(dynamic supply) onSupplyAdded;
-  final User user;
-
-  const AddSupplyScreen2({
     Key? key,
     required this.onSupplyAdded,
     required this.user,
@@ -1366,7 +1345,7 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.user,
-                  imageUrl: _selectedImage?.path ?? 'anonim.png',
+                  imageUrl: _selectedImage?.path ?? 'anonim.jpeg',
                 );
 
                 widget.onSupplyAdded(newSupply);
