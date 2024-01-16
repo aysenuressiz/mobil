@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(const FigmaToCodeApp());
@@ -1286,10 +1289,37 @@ class AddSupplyScreen extends StatefulWidget {
   _AddSupplyScreenState createState() => _AddSupplyScreenState();
 }
 
+class AddSupplyScreen2 extends StatefulWidget {
+  final void Function(dynamic supply) onSupplyAdded;
+  final User user;
+
+  const AddSupplyScreen2({
+    Key? key,
+    required this.onSupplyAdded,
+    required this.user,
+  }) : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _AddSupplyScreenState createState() => _AddSupplyScreenState();
+}
+
 class _AddSupplyScreenState extends State<AddSupplyScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _sectorController = TextEditingController();
+  XFile? _selectedImage;
+
+  Future<void> _getImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        _selectedImage = image;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1316,6 +1346,17 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
               controller: _sectorController,
               decoration: const InputDecoration(labelText: 'Sector'),
             ),
+            // Image picker için bir düğme
+            ElevatedButton(
+              onPressed: _getImage,
+              child: const Text('Fotoğraf Seç'),
+            ),
+
+            // Seçilen fotoğrafın önizlemesi
+            _selectedImage != null
+                ? Image.file(File(_selectedImage!.path))
+                : const SizedBox.shrink(),
+
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -1325,7 +1366,7 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.user,
-                  imageUrl: 'anonim.png',
+                  imageUrl: _selectedImage?.path ?? 'anonim.png',
                 );
 
                 widget.onSupplyAdded(newSupply);
