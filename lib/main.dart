@@ -798,23 +798,38 @@ class _HomeScreenState extends State<HomeScreen> {
   // ignore: unused_element
   void _viewSupplyDetail(Supply supply) {
     var logger = Logger();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SupplyDetailScreen(
-          supply: supply,
-          currentUser: widget.user,
-          onDelete: () => _deleteSupply(supply),
-          onApply: () {
-            setState(() {
-              // Kullanıcının başvurularını tuttuğunuz listeye supply ekleyin
-              userApplications.add(supply);
-              logger.i('Başvuru eklendi: ${supply.title}');
-            });
-            Navigator.pop(context); // SupplyDetailScreen'ı kapatın
-          },
-        ),
-      ),
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(supply.title),
+          content: Column(
+            children: [
+              Text('Açıklama: ${supply.description}'),
+              Text('Sektör: ${supply.sector}'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('İptal'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Başvuruyu eklemek için
+                setState(() {
+                  userApplications.add(supply);
+                });
+                logger.i('Başvuru eklendi: ${supply.title}');
+                Navigator.pop(context);
+              },
+              child: const Text('Başvur'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -1094,6 +1109,7 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _sectorController;
+  late XFile? _imageFile;
 
   @override
   void initState() {
@@ -1103,6 +1119,15 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
         TextEditingController(text: widget.initialSupply.description);
     _sectorController =
         TextEditingController(text: widget.initialSupply.sector);
+  }
+
+  Future<void> _getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _imageFile = pickedFile;
+    });
   }
 
   @override
@@ -1116,6 +1141,20 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            GestureDetector(
+              onTap: _getImage,
+              child: _imageFile == null
+                  ? const Icon(
+                      Icons.add_a_photo,
+                      size: 50,
+                    )
+                  : Image.file(
+                      File(_imageFile!.path),
+                      height: 100,
+                      width: 100,
+                    ),
+            ),
+            const SizedBox(height: 20),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(labelText: 'Title'),
@@ -1138,7 +1177,7 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.initialSupply.createdBy,
-                  imageUrl: 'anonim.jpeg',
+                  imageUrl: _imageFile?.path ?? 'anonim.jpeg',
                 );
 
                 Navigator.pop(context, editedSupply);
