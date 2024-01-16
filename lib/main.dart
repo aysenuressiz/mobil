@@ -243,26 +243,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                     ),
                   ),
                 ),
-                /*Positioned(
-                  left: 54,
-                  top: 155,
-                  child: Container(
-                    width: 254,
-                    height: 1,
-                    decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 32, 85, 150)),
-                  ),
-                ),
-                Positioned(
-                  left: 53,
-                  top: 221,
-                  child: Container(
-                    width: 254,
-                    height: 1,
-                    decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 32, 85, 150)),
-                  ),
-                ),*/
+
                 Positioned(
                   left: 55,
                   top: 260,
@@ -646,7 +627,6 @@ class MyApplicationsScreen extends StatelessWidget {
                 color: Colors.black, // İstediğiniz renge güncelleyebilirsiniz
               ),
             ),
-
           );
         },
       ),
