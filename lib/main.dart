@@ -633,9 +633,20 @@ class MyApplicationsScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final supply = userApplications[index];
           return ListTile(
-            title: Text(supply.title),
-            subtitle: Text(supply.description),
-            // Diğer bilgileri ekle
+            title: Text(
+              supply.title,
+              style: const TextStyle(
+                color: Colors.blue, // İstediğiniz renge güncelleyebilirsiniz
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            subtitle: Text(
+              supply.description,
+              style: const TextStyle(
+                color: Colors.black, // İstediğiniz renge güncelleyebilirsiniz
+              ),
+            ),
+
           );
         },
       ),
@@ -848,6 +859,7 @@ class _HomeScreenState extends State<HomeScreen> {
             });
             Navigator.pop(context); // SupplyDetailScreen'ı kapatın
           },
+          context: context,
         ),
       ),
     );
@@ -1084,6 +1096,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     });
                                     Navigator.pop(context);
                                   },
+                                  context: context,
                                 ),
                               ),
                             );
@@ -1255,6 +1268,7 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class SupplyDetailScreen extends StatelessWidget {
+  final BuildContext context;
   final Supply supply;
   final void Function() onDelete;
   final void Function() onApply;
@@ -1262,6 +1276,7 @@ class SupplyDetailScreen extends StatelessWidget {
 
   const SupplyDetailScreen({
     Key? key,
+    required this.context,
     required this.supply,
     required this.currentUser,
     required this.onDelete,
@@ -1274,12 +1289,37 @@ class SupplyDetailScreen extends StatelessWidget {
 
   void addApplicationToMyApplications(Supply supply) {
     // Başvurularım listesine ekleme işlemleri
+    onApply();
   }
 
   void handleApply() {
     applyToSupply(supply, currentUser);
     addApplicationToMyApplications(supply);
+
     // Diğer işlemler
+    _showApplicationConfirmation();
+    // Diğer işlemler
+  }
+
+  void _showApplicationConfirmation() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Başvuru Onayı'),
+          content: Text(
+              'Başvurunuz başarıyla kaydedildi:\nBaşvurulan tedarik: ${supply.title}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Tamam'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
