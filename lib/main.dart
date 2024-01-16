@@ -1141,6 +1141,7 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _sectorController;
+  XFile? _selectedImage;
 
   @override
   void initState() {
@@ -1150,6 +1151,17 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
         TextEditingController(text: widget.initialSupply.description);
     _sectorController =
         TextEditingController(text: widget.initialSupply.sector);
+  }
+
+  Future<void> _getImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        _selectedImage = image;
+      });
+    }
   }
 
   @override
@@ -1190,6 +1202,24 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
               style: const TextStyle(color: Colors.black), // Metin rengi
             ),
             const SizedBox(height: 20),
+            const SizedBox(height: 10),
+
+            // Seçilen fotoğrafın önizlemesi
+            _selectedImage != null
+                ? Image.file(File(_selectedImage!.path))
+                : const SizedBox.shrink(),
+
+            const SizedBox(height: 20),
+
+            // Dosya ekleme ikonu
+            InkWell(
+              onTap: _getImage,
+              child: const Icon(
+                Icons.drive_folder_upload,
+                size: 40,
+                color: Colors.blue,
+              ),
+            ),
             ElevatedButton(
               onPressed: () {
                 final editedSupply = Supply(
