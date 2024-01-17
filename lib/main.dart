@@ -695,8 +695,8 @@ class _HomeScreenState extends State<HomeScreen> {
       description: '12 V 200 Amper Deep Cycle Marin Bakımsız Akü',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user1', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
-      imageFileName: 'images/akü.jpeg',
+      imageUrl: 'images/anonim.jpeg',
+      imageFileName: 'akü.jpeg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -706,8 +706,8 @@ class _HomeScreenState extends State<HomeScreen> {
           'Kablosuz 7 Inç Dokunmatik Araç Radyosu 32 GB Rom Android Oynatıcı ',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user2', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
-      imageFileName: 'images/radyo1.jpg',
+      imageUrl: 'images/anonim.jpeg',
+      imageFileName: 'radyo1.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -716,8 +716,8 @@ class _HomeScreenState extends State<HomeScreen> {
       description: 'Sıfır',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
-      imageFileName: 'images/kaporta.jpg',
+      imageUrl: 'images/anonim.jpeg',
+      imageFileName: 'kaporta.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -727,7 +727,7 @@ class _HomeScreenState extends State<HomeScreen> {
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
       imageUrl: 'anonim.jpeg',
-      imageFileName: 'images/tekerlek.jpg',
+      imageFileName: 'tekerlek.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -736,8 +736,8 @@ class _HomeScreenState extends State<HomeScreen> {
       description: 'Açıklama 5',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
-      imageFileName: 'images/ayna.jpg',
+      imageUrl: 'images/anonim.jpeg',
+      imageFileName: 'ayna.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -1260,7 +1260,7 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.initialSupply.createdBy,
-                  imageUrl: 'anonim.jpeg',
+                  imageUrl: 'images/anonim.jpeg',
                   imageFileName: '',
                 );
 
@@ -1385,7 +1385,7 @@ class SupplyDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              supply.imageFileName,
+              'images/${supply.imageFileName}',
               height: supply.imageHeight,
               width: supply.imageWidth,
               fit: BoxFit.cover,
@@ -1538,7 +1538,7 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.user,
-                  imageUrl: _selectedImage?.path ?? 'anonim.jpeg',
+                  imageUrl: _selectedImage?.path ?? '',
                   imageFileName: '',
                 );
 
@@ -1575,4 +1575,3 @@ class Supply {
     this.imageWidth = double.infinity,
   });
 }
-//selam naber
