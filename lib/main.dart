@@ -691,25 +691,55 @@ class User {
 class _HomeScreenState extends State<HomeScreen> {
   final List<Supply> supplyList = [
     Supply(
-      title: 'Tedarik 1',
-      description: 'Açıklama 1',
-      sector: 'Sektor 1',
+      title: 'Akü',
+      description: '12 V 200 Amper Deep Cycle Marin Bakımsız Akü',
+      sector: 'OTOMOTİV',
       createdBy: User(username: 'user1', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
+      imageUrl: 'anonim.png',
+      imageFileName: 'akü.jpeg',
+      imageHeight: 300.0, // Özel yükseklik değeri
+      imageWidth: 300.0, // Özel genişlik değeri
     ),
     Supply(
-      title: 'Tedarik 2',
-      description: 'Açıklama 2',
-      sector: 'Sektor 2',
+      title: 'Dokunmatik Radyo',
+      description:
+          'Kablosuz 7 Inç Dokunmatik Araç Radyosu 32 GB Rom Android Oynatıcı ',
+      sector: 'OTOMOTİV',
       createdBy: User(username: 'user2', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
+      imageUrl: 'anonim.png',
+      imageFileName: 'radyo1.jpg',
+      imageHeight: 300.0, // Özel yükseklik değeri
+      imageWidth: 300.0, // Özel genişlik değeri
     ),
     Supply(
-      title: 'Tedarik 3',
-      description: 'Açıklama 3',
-      sector: 'Sektor 3',
+      title: 'Kaporta',
+      description: 'Sıfır',
+      sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
       imageUrl: 'anonim.png',
+      imageFileName: 'kaporta.jpg',
+      imageHeight: 300.0, // Özel yükseklik değeri
+      imageWidth: 300.0, // Özel genişlik değeri
+    ),
+    Supply(
+      title: 'Tekerlek',
+      description: 'Açıklama 4',
+      sector: 'OTOMOTİV',
+      createdBy: User(username: 'user3', email: '', imageUrl: ''),
+      imageUrl: 'anonim.png',
+      imageFileName: 'tekerlek.jpg',
+      imageHeight: 300.0, // Özel yükseklik değeri
+      imageWidth: 300.0, // Özel genişlik değeri
+    ),
+    Supply(
+      title: 'Dikiz Aynası',
+      description: 'Açıklama 5',
+      sector: 'OTOMOTİV',
+      createdBy: User(username: 'user3', email: '', imageUrl: ''),
+      imageUrl: 'anonim.png',
+      imageFileName: 'ayna.jpg',
+      imageHeight: 300.0, // Özel yükseklik değeri
+      imageWidth: 300.0, // Özel genişlik değeri
     ),
   ];
 
@@ -1221,6 +1251,7 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
                   sector: _sectorController.text,
                   createdBy: widget.initialSupply.createdBy,
                   imageUrl: 'anonim.jpeg',
+                  imageFileName: '',
                 );
 
                 Navigator.pop(context, editedSupply);
@@ -1343,6 +1374,14 @@ class SupplyDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Image.asset(
+              'images/${supply.imageFileName}',
+              height: supply.imageHeight,
+              width: supply.imageWidth,
+              fit: BoxFit.cover,
+            ),
+
+            const SizedBox(height: 20),
             Text(
               'Description: ${supply.description}',
               style: const TextStyle(color: Colors.black), // Metin rengi
@@ -1490,6 +1529,7 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
                   sector: _sectorController.text,
                   createdBy: widget.user,
                   imageUrl: _selectedImage?.path ?? 'anonim.jpeg',
+                  imageFileName: '',
                 );
 
                 widget.onSupplyAdded(newSupply);
@@ -1510,6 +1550,9 @@ class Supply {
   final String sector;
   final User createdBy;
   final String imageUrl;
+  final String imageFileName;
+  final double imageHeight;
+  final double imageWidth;
 
   Supply({
     required this.title,
@@ -1517,5 +1560,8 @@ class Supply {
     required this.sector,
     required this.createdBy,
     required this.imageUrl,
+    required this.imageFileName,
+    this.imageHeight = 200.0,
+    this.imageWidth = double.infinity,
   });
 }
