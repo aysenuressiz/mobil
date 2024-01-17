@@ -695,8 +695,8 @@ class _HomeScreenState extends State<HomeScreen> {
       description: '12 V 200 Amper Deep Cycle Marin Bakımsız Akü',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user1', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
-      imageFileName: 'akü.jpeg',
+      imageUrl: 'anonim.jpeg',
+      imageFileName: 'images/akü.jpeg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -706,8 +706,8 @@ class _HomeScreenState extends State<HomeScreen> {
           'Kablosuz 7 Inç Dokunmatik Araç Radyosu 32 GB Rom Android Oynatıcı ',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user2', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
-      imageFileName: 'radyo1.jpg',
+      imageUrl: 'anonim.jpeg',
+      imageFileName: 'images/radyo1.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -716,8 +716,8 @@ class _HomeScreenState extends State<HomeScreen> {
       description: 'Sıfır',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
-      imageFileName: 'kaporta.jpg',
+      imageUrl: 'anonim.jpeg',
+      imageFileName: 'images/kaporta.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -726,8 +726,8 @@ class _HomeScreenState extends State<HomeScreen> {
       description: 'Açıklama 4',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
-      imageFileName: 'tekerlek.jpg',
+      imageUrl: 'anonim.jpeg',
+      imageFileName: 'images/tekerlek.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -736,8 +736,8 @@ class _HomeScreenState extends State<HomeScreen> {
       description: 'Açıklama 5',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
-      imageFileName: 'ayna.jpg',
+      imageUrl: 'anonim.jpeg',
+      imageFileName: 'images/ayna.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -1375,7 +1375,7 @@ class SupplyDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              'images/${supply.imageFileName}',
+              supply.imageFileName,
               height: supply.imageHeight,
               width: supply.imageWidth,
               fit: BoxFit.cover,
