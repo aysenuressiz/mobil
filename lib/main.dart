@@ -722,7 +722,7 @@ class _HomeScreenState extends State<HomeScreen> {
       imageWidth: 300.0, // Özel genişlik değeri
     ),
     Supply(
-      title: 'Tekerlek',
+      title: 'Lastik',
       description: 'Açıklama 4',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
@@ -1065,6 +1065,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 16,
                           ),
                         ),
+                        if (supply.imageUrl.isNotEmpty)
+                          Image.asset(
+                            'images/${supply.imageFileName}', // supply.imageFileName veya istediğiniz uygun veriyi kullanmalısınız
+                            height:
+                                100, // İstenilen yüksekliği ayarlayabilirsiniz
+                            width: double
+                                .infinity, // Genişliği ekrana sığacak şekilde ayarlar
+                            fit: BoxFit
+                                .cover, // Resmi uygun şekilde boyutlandırır
+                          ),
                         ListTile(
                           leading: supply.imageUrl.isNotEmpty
                               ? const CircleAvatar(
