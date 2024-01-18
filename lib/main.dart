@@ -695,7 +695,10 @@ class _HomeScreenState extends State<HomeScreen> {
       description: '12 V 200 Amper Deep Cycle Marin Bakımsız Akü',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user1', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
+
+
+      imageUrl: 'images/anonim.jpeg',
+
       imageFileName: 'akü.jpeg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
@@ -706,7 +709,9 @@ class _HomeScreenState extends State<HomeScreen> {
           'Kablosuz 7 Inç Dokunmatik Araç Radyosu\n 32 GB Rom Android Oynatıcı ',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user2', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
+
+      imageUrl: 'images/anonim.jpeg',
+
       imageFileName: 'radyo1.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
@@ -717,7 +722,9 @@ class _HomeScreenState extends State<HomeScreen> {
       'Ford Connect Tampon Ön 2009 Ve Üstü Yıllar (P9t16 17c831 Aexwaa)\nAraç Markası:	Ford\nAraç Modeli:	Connec\nGaranti Süresi (Ay):	24',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
+
+      imageUrl: 'images/anonim.jpeg',
+
       imageFileName: 'kaporta.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
@@ -727,7 +734,9 @@ class _HomeScreenState extends State<HomeScreen> {
       description: 'Falken 205/55 R16 91H Euroall Season AS210 Oto  Lastiği ( Üretim Yılı: 2023 )\nJant Çapı:	16\nKesit Oranı:	55 Gürültü Seviyesi:	69 dB\nTaban Genişliği (mm):	205 mm Yol Tutuşu:	C\nMevsim:	4 Mevsim',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
+
+      imageUrl: 'anonim.jpeg',
+
       imageFileName: 'tekerlek.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
@@ -737,7 +746,9 @@ class _HomeScreenState extends State<HomeScreen> {
       description: 'Rowell CR-007 Dikiz Aynası\nDİKİZ AYNASINDA TEK YÖNLÜ ARAÇ KAYIT DVR KAMERA\n3.5'' Ekran\nGeniş Açı\nG Sensör, Hareket algılama\nDöngüsel Kayıt, HD 1080 DVR Kamera\n',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.png',
+
+      imageUrl: 'images/anonim.jpeg',
+
       imageFileName: 'ayna.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
@@ -1261,7 +1272,7 @@ class _EditSupplyScreenState extends State<EditSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.initialSupply.createdBy,
-                  imageUrl: 'anonim.jpeg',
+                  imageUrl: 'images/anonim.jpeg',
                   imageFileName: '',
                 );
 
@@ -1539,7 +1550,7 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
                   description: _descriptionController.text,
                   sector: _sectorController.text,
                   createdBy: widget.user,
-                  imageUrl: _selectedImage?.path ?? 'anonim.jpeg',
+                  imageUrl: _selectedImage?.path ?? '',
                   imageFileName: '',
                 );
 
