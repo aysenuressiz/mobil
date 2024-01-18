@@ -695,49 +695,50 @@ class _HomeScreenState extends State<HomeScreen> {
       description: '12 V 200 Amper Deep Cycle Marin Bakımsız Akü',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user1', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
-      imageFileName: 'images/akü.jpeg',
+      imageUrl: 'anonim.png',
+      imageFileName: 'akü.jpeg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
     Supply(
       title: 'Dokunmatik Radyo',
       description:
-          'Kablosuz 7 Inç Dokunmatik Araç Radyosu 32 GB Rom Android Oynatıcı ',
+          'Kablosuz 7 Inç Dokunmatik Araç Radyosu\n 32 GB Rom Android Oynatıcı ',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user2', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
-      imageFileName: 'images/radyo1.jpg',
+      imageUrl: 'anonim.png',
+      imageFileName: 'radyo1.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
     Supply(
       title: 'Kaporta',
-      description: 'Sıfır',
+      description:
+      'Ford Connect Tampon Ön 2009 Ve Üstü Yıllar (P9t16 17c831 Aexwaa)\nAraç Markası:	Ford\nAraç Modeli:	Connec\nGaranti Süresi (Ay):	24',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
-      imageFileName: 'images/kaporta.jpg',
+      imageUrl: 'anonim.png',
+      imageFileName: 'kaporta.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
     Supply(
       title: 'Lastik',
-      description: 'Açıklama 4',
+      description: 'Falken 205/55 R16 91H Euroall Season AS210 Oto  Lastiği ( Üretim Yılı: 2023 )\nJant Çapı:	16\nKesit Oranı:	55 Gürültü Seviyesi:	69 dB\nTaban Genişliği (mm):	205 mm Yol Tutuşu:	C\nMevsim:	4 Mevsim',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
-      imageFileName: 'images/tekerlek.jpg',
+      imageUrl: 'anonim.png',
+      imageFileName: 'tekerlek.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
     Supply(
       title: 'Dikiz Aynası',
-      description: 'Açıklama 5',
+      description: 'Rowell CR-007 Dikiz Aynası\nDİKİZ AYNASINDA TEK YÖNLÜ ARAÇ KAYIT DVR KAMERA\n3.5'' Ekran\nGeniş Açı\nG Sensör, Hareket algılama\nDöngüsel Kayıt, HD 1080 DVR Kamera\n',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
-      imageUrl: 'anonim.jpeg',
-      imageFileName: 'images/ayna.jpg',
+      imageUrl: 'anonim.png',
+      imageFileName: 'ayna.jpg',
       imageHeight: 300.0, // Özel yükseklik değeri
       imageWidth: 300.0, // Özel genişlik değeri
     ),
@@ -1385,7 +1386,7 @@ class SupplyDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              supply.imageFileName,
+              'images/${supply.imageFileName}',
               height: supply.imageHeight,
               width: supply.imageWidth,
               fit: BoxFit.cover,
@@ -1575,4 +1576,3 @@ class Supply {
     this.imageWidth = double.infinity,
   });
 }
-//selam naber
