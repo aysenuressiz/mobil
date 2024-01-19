@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "957295367394",
+    "project_id": "supplynexa-6fd23",
+    "storage_bucket": "supplynexa-6fd23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957295367394:android:ac610211e0f6bb113cfabb",
+        "android_client_info": {
+          "package_name": "com.example.mobil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAunrsS3uUrMNq1aOzCdiqjC4OGecMlGJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
