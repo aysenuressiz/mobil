@@ -2,13 +2,24 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+void addDataToFirestore() {
+  FirebaseFirestore.instance.collection('your_collection').add({
+    'field1': 'value1',
+    'field2': 'value2',
+  });
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const FigmaToCodeApp());
 }
 
 class FigmaToCodeApp extends StatelessWidget {
-  const FigmaToCodeApp({Key? key}) : super(key: key);
+  const FigmaToCodeApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -547,10 +558,10 @@ class MySuppliesScreen extends StatelessWidget {
   final List<Supply> userSupplies;
 
   const MySuppliesScreen({
-    Key? key,
+    super.key,
     required this.user,
     required this.userSupplies,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -598,10 +609,10 @@ class MyApplicationsScreen extends StatelessWidget {
   final List<Supply> userApplications;
 
   const MyApplicationsScreen({
-    Key? key,
+    super.key,
     required this.user,
     required this.userApplications,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -638,10 +649,10 @@ class MyNotificationScreen extends StatelessWidget {
   final User user;
 
   const MyNotificationScreen({
-    Key? key,
+    super.key,
     required this.user,
     required List<Supply> userSupplies,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -667,7 +678,7 @@ class MyNotificationScreen extends StatelessWidget {
 class HomeScreen extends StatefulWidget {
   final User user;
 
-  const HomeScreen({Key? key, required this.user}) : super(key: key);
+  const HomeScreen({super.key, required this.user});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -1162,8 +1173,7 @@ class _HomeScreenState extends State<HomeScreen> {
 class EditSupplyScreen extends StatefulWidget {
   final Supply initialSupply;
 
-  const EditSupplyScreen({Key? key, required this.initialSupply})
-      : super(key: key);
+  const EditSupplyScreen({super.key, required this.initialSupply});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -1279,10 +1289,10 @@ class ProfileScreen extends StatelessWidget {
   final User user;
 
   const ProfileScreen({
-    Key? key,
+    super.key,
     required this.user,
     required List<Supply> userSupplies,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1326,13 +1336,13 @@ class SupplyDetailScreen extends StatelessWidget {
   final User currentUser;
 
   const SupplyDetailScreen({
-    Key? key,
+    super.key,
     required this.context,
     required this.supply,
     required this.currentUser,
     required this.onDelete,
     required this.onApply,
-  }) : super(key: key);
+  });
 
   void applyToSupply(Supply supply, User user) {
     // Supply'e başvur işlemleri
@@ -1448,10 +1458,10 @@ class AddSupplyScreen extends StatefulWidget {
   final User user;
 
   const AddSupplyScreen({
-    Key? key,
+    super.key,
     required this.onSupplyAdded,
     required this.user,
-  }) : super(key: key);
+  });
 
   @override
   // ignore: library_private_types_in_public_api
