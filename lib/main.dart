@@ -1,21 +1,17 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-void addDataToFirestore() {
-  FirebaseFirestore.instance.collection('your_collection').add({
-    'field1': 'value1',
-    'field2': 'value2',
-  });
-}
+import 'package:mobil/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const FigmaToCodeApp());
 }
 
@@ -34,6 +30,32 @@ class FigmaToCodeApp extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class FirebaseAuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  User currentUser() {
+    User? user = _auth.currentUser as User?;
+    if (user == null) {
+      throw Exception('Kullanıcı oturum açmamış.');
+    }
+    return user;
+  }
+
+  Future<void> signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 
@@ -316,7 +338,7 @@ class _AndroidSmall2State extends State<AndroidSmall2> {
                               'Sign Up',
                               semanticsLabel: 'Sign Up',
                               style: TextStyle(
-                                color: Color.fromARGB(255, 186, 218, 230),
+                                color: Colors.white,
                                 fontSize: 20,
                                 fontFamily: 'Ibarra Real Nova',
                                 fontWeight: FontWeight.w700,
@@ -481,30 +503,60 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kayıt Ekranı'),
+        title: const Text('Sign Up'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(labelText: 'E-posta'),
+              decoration: const InputDecoration(
+                labelText: 'Email',
+                labelStyle: TextStyle(color: Colors.black), // Email metin rengi
+                border: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Colors.black), // Alt çizgi rengi
+                ),
+              ),
+              style:
+                  const TextStyle(color: Colors.black), // Girilen metin rengi
             ),
+            const SizedBox(height: 10),
             TextField(
               controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Kullanıcı Adı'),
+              decoration: const InputDecoration(
+                labelText: 'Username',
+                labelStyle: TextStyle(color: Colors.black), //  metin rengi
+                border: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Colors.black), // Alt çizgi rengi
+                ),
+              ),
+              style:
+                  const TextStyle(color: Colors.black), // Girilen metin rengi
             ),
             TextField(
               controller: _passwordController,
               obscureText: true,
-              decoration: const InputDecoration(labelText: 'Şifre'),
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                labelStyle: TextStyle(color: Colors.black), // metin rengi
+                border: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Colors.black), // Alt çizgi rengi
+                ),
+              ),
+              style:
+                  const TextStyle(color: Colors.black), // Girilen metin rengi
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 32, 85, 150),
+              ),
               onPressed: _register,
-              child: const Text('Kayıt Ol'),
+              child: const Text('Sign Up'),
             ),
           ],
         ),
@@ -517,8 +569,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
 
       // Kullanıcı oluşturuldu, ek işlemleri burada yapabilirsiniz.
@@ -674,6 +726,8 @@ class User {
     required this.email,
     required this.imageUrl,
   });
+
+  toJson() {}
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -683,7 +737,6 @@ class _HomeScreenState extends State<HomeScreen> {
       description: '12 V 200 Amper Deep Cycle Marin Bakımsız Akü',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user1', email: '', imageUrl: ''),
-
 
       imageUrl: 'images/anonim.jpeg',
 
@@ -707,7 +760,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Supply(
       title: 'Kaporta',
       description:
-      'Ford Connect Tampon Ön 2009 Ve Üstü Yıllar (P9t16 17c831 Aexwaa)\nAraç Markası:	Ford\nAraç Modeli:	Connec\nGaranti Süresi (Ay):	24',
+          'Ford Connect Tampon Ön 2009 Ve Üstü Yıllar (P9t16 17c831 Aexwaa)\nAraç Markası:	Ford\nAraç Modeli:	Connec\nGaranti Süresi (Ay):	24',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
 
@@ -719,7 +772,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     Supply(
       title: 'Lastik',
-      description: 'Falken 205/55 R16 91H Euroall Season AS210 Oto  Lastiği ( Üretim Yılı: 2023 )\nJant Çapı:	16\nKesit Oranı:	55 Gürültü Seviyesi:	69 dB\nTaban Genişliği (mm):	205 mm Yol Tutuşu:	C\nMevsim:	4 Mevsim',
+      description:
+          'Falken 205/55 R16 91H Euroall Season AS210 Oto  Lastiği ( Üretim Yılı: 2023 )\nJant Çapı:	16\nKesit Oranı:	55 Gürültü Seviyesi:	69 dB\nTaban Genişliği (mm):	205 mm Yol Tutuşu:	C\nMevsim:	4 Mevsim',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
 
@@ -731,7 +785,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     Supply(
       title: 'Dikiz Aynası',
-      description: 'Rowell CR-007 Dikiz Aynası\nDİKİZ AYNASINDA TEK YÖNLÜ ARAÇ KAYIT DVR KAMERA\n3.5'' Ekran\nGeniş Açı\nG Sensör, Hareket algılama\nDöngüsel Kayıt, HD 1080 DVR Kamera\n',
+      description:
+          'Rowell CR-007 Dikiz Aynası\nDİKİZ AYNASINDA TEK YÖNLÜ ARAÇ KAYIT DVR KAMERA\n3.5'
+          ' Ekran\nGeniş Açı\nG Sensör, Hareket algılama\nDöngüsel Kayıt, HD 1080 DVR Kamera\n',
       sector: 'OTOMOTİV',
       createdBy: User(username: 'user3', email: '', imageUrl: ''),
 
@@ -1457,11 +1513,33 @@ class AddSupplyScreen extends StatefulWidget {
   _AddSupplyScreenState createState() => _AddSupplyScreenState();
 }
 
+class FirestoreService {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> addSupplyToFirestore(Supply supply) async {
+    try {
+      await _firestore.collection('supplies').add({
+        'title': supply.title,
+        'description': supply.description,
+        'sector': supply.sector,
+        'createdBy': supply.createdBy
+            .toJson(), // Kullanıcı bilgilerini JSON'a çevirerek kaydedin
+        'imageUrl': supply.imageUrl,
+        'imageFileName': supply.imageFileName,
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
+
 class _AddSupplyScreenState extends State<AddSupplyScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _sectorController = TextEditingController();
   XFile? _selectedImage;
+
+  final FirestoreService _firestoreService = FirestoreService();
 
   Future<void> _getImage() async {
     final ImagePicker picker = ImagePicker();
@@ -1471,6 +1549,33 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
       setState(() {
         _selectedImage = image;
       });
+    }
+  }
+
+  Future<void> _addSupply() async {
+    var logger = Logger();
+    try {
+      // Firebase Authentication ile oturum açık mı kontrol et
+      final newSupply = Supply(
+        title: _titleController.text,
+        description: _descriptionController.text,
+        sector: _sectorController.text,
+        createdBy: widget.user,
+        imageUrl: _selectedImage?.path ?? '',
+        imageFileName: '',
+      );
+
+      await _firestoreService.addSupplyToFirestore(newSupply);
+
+      // Callback fonksiyonunu çağırarak eklenen tedarik bilgisini iletebilirsiniz
+      widget.onSupplyAdded(newSupply);
+
+      // Ekranı kapat
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    } catch (e) {
+      // Hata durumunda işlemleri burada ele alabilirsiniz
+      logger.i('Tedarik eklerken hata oluştu: $e');
     }
   }
 
@@ -1489,7 +1594,7 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
               controller: _titleController,
               decoration: const InputDecoration(
                 labelText: 'Title',
-                labelStyle: TextStyle(color: Colors.black), // Başlık rengi
+                labelStyle: TextStyle(color: Colors.black),
               ),
               style: const TextStyle(color: Colors.black),
             ),
@@ -1498,7 +1603,7 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
               controller: _descriptionController,
               decoration: const InputDecoration(
                 labelText: 'Description',
-                labelStyle: TextStyle(color: Colors.black), // Başlık rengi
+                labelStyle: TextStyle(color: Colors.black),
               ),
               style: const TextStyle(color: Colors.black),
             ),
@@ -1507,20 +1612,15 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
               controller: _sectorController,
               decoration: const InputDecoration(
                 labelText: 'Sector',
-                labelStyle: TextStyle(color: Colors.black), // Başlık rengi
+                labelStyle: TextStyle(color: Colors.black),
               ),
               style: const TextStyle(color: Colors.black),
             ),
-
-            // Seçilen fotoğrafın önizlemesi
             _selectedImage != null
                 ? Image.file(File(_selectedImage!.path))
                 : const SizedBox.shrink(),
-
             const SizedBox(height: 20),
             const SizedBox(height: 10),
-
-            // Dosya ekleme ikonu
             InkWell(
               onTap: _getImage,
               child: const Icon(
@@ -1530,20 +1630,7 @@ class _AddSupplyScreenState extends State<AddSupplyScreen> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                // Add supply logic here
-                final newSupply = Supply(
-                  title: _titleController.text,
-                  description: _descriptionController.text,
-                  sector: _sectorController.text,
-                  createdBy: widget.user,
-                  imageUrl: _selectedImage?.path ?? '',
-                  imageFileName: '',
-                );
-
-                widget.onSupplyAdded(newSupply);
-                Navigator.pop(context);
-              },
+              onPressed: _addSupply,
               child: const Text('Add Supply'),
             ),
           ],
